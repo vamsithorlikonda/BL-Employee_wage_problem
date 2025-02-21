@@ -1,14 +1,11 @@
 import random
 
-def check_attendance():
-    return random.randint(0, 1)  # 0 for Absent, 1 for Present
+def get_work_hours():
+    return random.choice([4, 8])
 
-def calculate_daily_wage(wage_per_hour=20, full_day_hour=8):
-    if check_attendance() == 1:
-        daily_wage = wage_per_hour * full_day_hour
-        return f"Employee is Present. Daily Wage: {daily_wage}"
-    else:
-        return "Employee is Absent. No Wage for Today."
+def calculate_daily_wage(wage_per_hour=20):
+    work_hours = get_work_hours()
+    daily_wage = wage_per_hour * work_hours
+    return f"Worked {work_hours} hours. Daily Wage: {daily_wage}"
 
 print(calculate_daily_wage())
-
