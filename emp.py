@@ -1,35 +1,29 @@
 import random
 
-def get_work_hours():
-    work_type = random.choice(["full_time", "part_time", "absent"])
-    
-    if work_type == "full_time":
-        return 8, "Full Time"
-    elif work_type == "part_time":
-        return 4, "Part Time"
-    else:
-        return 0, "Absent"
+def calculate_wages(wage_per_hour=10, max_hours=100, max_days=20): 
+    total_hours = 0
+    total_days = 0
+    total_wages = 0
 
-def calculate_daily_wage(wage_per_hour=20):
-    work_hours, work_type = get_work_hours()
-    daily_wage = wage_per_hour * work_hours
+    while total_hours < max_hours and total_days < max_days:
+        work_hours = random.randint(4, 8)  # Random work hours per day (4 to 8 hours)
+        
+        if total_hours + work_hours > max_hours:
+            work_hours = max_hours - total_hours  # Adjust to not exceed max hours
 
-    if work_hours == 0:
-        return 0, "Absent"
-    return daily_wage, work_type
+        total_hours += work_hours
+        total_days += 1
+        daily_wage = work_hours * wage_per_hour
+        total_wages += daily_wage
 
-def calculate_monthly_wage(total_working_days=20, wage_per_hour=20):
-    total_wage = 0
-    daily_wage_records = []
+        print(f"Day {total_days}: Worked {work_hours} hours, Earned ${daily_wage}")
 
-    for day in range(1, total_working_days + 1):
-        daily_wage, work_type = calculate_daily_wage(wage_per_hour)
-        total_wage += daily_wage
-        daily_wage_records.append(f"Day {day}: {work_type}, Wage: {daily_wage}")
+    return total_days, total_hours, total_wages
 
-    return total_wage, daily_wage_records
 
-total_wage, records = calculate_monthly_wage()
-print("\n".join(records))
-print(f"\nTotal Wage for the Month: {total_wage}")
 
+days_worked, hours_worked, wages_earned = calculate_wages(wage_per_hour=10, max_hours=100, max_days=20)
+
+print("\nTotal Days Worked:", days_worked)
+print("Total Hours Worked:", hours_worked)
+print("Total Wages Earned: $", wages_earned)
