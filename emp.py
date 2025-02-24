@@ -1,29 +1,33 @@
 import random
 
-def calculate_wages(wage_per_hour=10, max_hours=100, max_days=20): 
-    total_hours = 0
-    total_days = 0
-    total_wages = 0
+class EmployeeWage:
+    wage_per_hour = 20
+    full_day_hours = 8
+    part_time_hours = 4
+    working_days_per_month = 20
+    max_hours_per_month = 100
 
-    while total_hours < max_hours and total_days < max_days:
-        work_hours = random.randint(4, 8)  # Random work hours per day (4 to 8 hours)
-        
-        if total_hours + work_hours > max_hours:
-            work_hours = max_hours - total_hours  # Adjust to not exceed max hours
+    @classmethod
+    def compute_employee_wage(cls):
+        total_wage = 0
+        total_hours = 0
+        total_days = 0
 
-        total_hours += work_hours
-        total_days += 1
-        daily_wage = work_hours * wage_per_hour
-        total_wages += daily_wage
+        while total_hours < cls.max_hours_per_month and total_days < cls.working_days_per_month:
+            total_days += 1
+            emp_type = random.choice(["full_time", "part_time", "absent"])
 
-        print(f"Day {total_days}: Worked {work_hours} hours, Earned ${daily_wage}")
+            if emp_type == "full_time":
+                daily_hours = cls.full_day_hours
+            elif emp_type == "part_time":
+                daily_hours = cls.part_time_hours
+            else:
+                daily_hours = 0
 
-    return total_days, total_hours, total_wages
+            total_hours += daily_hours
+            total_wage += daily_hours * cls.wage_per_hour
 
+        return total_wage
 
+print("Total Employee Wage:", EmployeeWage.compute_employee_wage())
 
-days_worked, hours_worked, wages_earned = calculate_wages(wage_per_hour=10, max_hours=100, max_days=20)
-
-print("\nTotal Days Worked:", days_worked)
-print("Total Hours Worked:", hours_worked)
-print("Total Wages Earned: $", wages_earned)
